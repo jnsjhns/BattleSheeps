@@ -1,33 +1,54 @@
 package at.ac.fhcampuswien;
 
 import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
     private final Cell[][] cells; // 2D-Array von Cell-Objekten
     private final Group root; // Root-Node für die Darstellung
+    private final List<Sheep> sheepList; // Liste der Schafe auf dem Board
 
     public Board(int rows, int cols) {
         cells = new Cell[rows][cols];
         root = new Group();
+        sheepList = new ArrayList<Sheep>();
         initializeBoard(rows, cols);
     }
 
     private void initializeBoard(int rows, int cols) {
+        Image grassImage = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/grass.jpg"));
+
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                Rectangle cellRect = new Rectangle(30, 30);
-                cellRect.setFill(Color.LIGHTGREEN); // Grasgrün für leere Felder
-                cellRect.setStroke(Color.BLACK);
-                cellRect.setX(col * 30); // X-Position basierend auf der Spalte
-                cellRect.setY(row * 30); // Y-Position basierend auf der Zeile
-                Cell cell = new Cell(row, col, cellRect);
+                // Erstelle ein Rechteck für die Zelle
+                Rectangle cellRectangle = new Rectangle(40, 40);
+                cellRectangle.setX(col * 40);
+                cellRectangle.setY(row * 40);
+
+                // Setze das Grasbild als Füllung
+                cellRectangle.setFill(new ImagePattern(grassImage));
+
+                // Füge einen Rahmen hinzu
+                cellRectangle.setStroke(Color.BLACK);
+                cellRectangle.setStrokeWidth(1);
+
+                // Erstelle eine neue Cell und füge sie hinzu
+                Cell cell = new Cell(row, col, cellRectangle);
                 cells[row][col] = cell;
-                root.getChildren().add(cellRect); // Rechteck zur Gruppe hinzufügen
+
+                // Füge das Rechteck zur Root-Gruppe hinzu
+                root.getChildren().add(cellRectangle);
             }
         }
     }
+
+
 
     public Group getRoot() {
         return root;
@@ -63,8 +84,9 @@ public class Board {
 
 
     public void placeSheep(Sheep sheep, int row, int col) {
-        // Vor der Platzierung sicherstellen, dass das Schaf platziert werden kann
         if (canPlaceSheep(sheep, row, col)) {
+            Image sheepImage = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/sheep.jpg"));
+
             for (int i = 0; i < sheep.getSize(); i++) {
                 int r = sheep.isHorizontal() ? row : row + i;
                 int c = sheep.isHorizontal() ? col + i : col;
@@ -72,14 +94,28 @@ public class Board {
                 Cell cell = getCell(r, c);
                 if (cell != null) {
                     cell.setOccupied(true);
-                    cell.getRectangle().setFill(Color.GRAY); // Schaf optisch anzeigen
+
+                    // Erstelle ein ImageView für das Schaf
+                    ImageView sheepView = new ImageView(sheepImage);
+                    int cellSize = 40;
+                    int imageSize = 38;
+                    int offset = (cellSize - imageSize) / 2;
+
+                    sheepView.setX(c * cellSize + offset);
+                    sheepView.setY(r * cellSize + offset);
+
+                    root.getChildren().add(sheepView); // Füge das Bild zur Root-Gruppe hinzu
                 }
             }
+
+            // Füge das platzierte Schaf zur Liste hinzu
+            sheep.setPosition(row, col); // Speichere Startposition im Schaf (falls nötig)
+            sheepList.add(sheep);
         } else {
-            // Hier könntest du eine Fehlermeldung oder eine andere Reaktion einbauen
             System.out.println("Schaf kann nicht hier platziert werden.");
         }
     }
+
 
 
     public boolean isCellOccupied(int row, int col) {
@@ -87,10 +123,11 @@ public class Board {
         return cell != null && cell.isOccupied();
     }
 
-    public void setCellColor(int row, int col, Color color) {
+    public void setCellColor(int row, int col, String newImagePath) {
         Cell cell = getCell(row, col);
         if (cell != null) {
-            cell.getRectangle().setFill(color);
+            Image newImage = new Image(getClass().getResourceAsStream(newImagePath));
+            cell.getRectangle().setFill(new ImagePattern(newImage)); // Setze das neue Bild als Füllung
         }
     }
 }

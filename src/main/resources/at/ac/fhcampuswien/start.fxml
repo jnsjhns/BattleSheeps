@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.StartController" spacing="20" alignment="CENTER" style="-fx-padding: 20;">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="20" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.StartController">
+
+
     <!-- Bild oben -->
-    <ImageView fitWidth="400" fitHeight="283" preserveRatio="true">
+    <ImageView fitHeight="283" fitWidth="400" preserveRatio="true">
         <image>
             <Image url="@Schaf.jpg" />
         </image>
     </ImageView>
 
     <!-- Eingabe für Player 1 -->
-    <Label text="Player 1 Name:" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
-    <TextField fx:id="player1Name" promptText="Enter Player 1 Name" />
+    <Label text="Player 1 Name:">
+      <font>
+         <Font name="Minecraft" size="12.0" />
+      </font></Label>
+    <TextField fx:id="player1Name" promptText="Enter Player 1 Name" style="-fx-font-family: 'Minecraftia 2.0';" />
 
     <!-- Eingabe für Player 2 -->
-    <Label text="Player 2 Name:" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
-    <TextField fx:id="player2Name" promptText="Enter Player 2 Name" />
+    <Label text="Player 2 Name:">
+      <font>
+         <Font name="Minecraft" size="12.0" />
+      </font></Label>
+    <TextField fx:id="player2Name" promptText="Enter Player 2 Name" style="-fx-font-family: 'Minecraftia 2.0';" />
 
     <!-- Start-Button -->
-    <Button text="Start Game" onAction="#startGame" style="-fx-font-size: 14px;" />
+    <Button onAction="#startGame" style="-fx-font-family: 'Minecraftia 2.0';" text="Start Game" />
 </VBox>

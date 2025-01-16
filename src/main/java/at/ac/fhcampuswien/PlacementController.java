@@ -2,11 +2,11 @@ package at.ac.fhcampuswien;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.ImagePattern;
 
 public class PlacementController {
 
@@ -52,10 +52,9 @@ public class PlacementController {
                 final int finalRow = row;
                 final int finalCol = col;
 
-                Rectangle cellRectangle = board.getCell(row, col).getRectangle();
-                cellRectangle.setOnMouseEntered(event -> handleMouseEnter(finalRow, finalCol));
-                cellRectangle.setOnMouseExited(event -> handleMouseExit(finalRow, finalCol));
-                cellRectangle.setOnMouseClicked(event -> handleMouseClick(finalRow, finalCol, event.getButton()));
+                board.getCell(row, col).getRectangle().setOnMouseEntered(event -> handleMouseEnter(finalRow, finalCol));
+                board.getCell(row, col).getRectangle().setOnMouseExited(event -> handleMouseExit(finalRow, finalCol));
+                board.getCell(row, col).getRectangle().setOnMouseClicked(event -> handleMouseClick(finalRow, finalCol, event.getButton()));
             }
         }
     }
@@ -81,11 +80,9 @@ public class PlacementController {
         );
     }
 
-
-
     private void handleMouseEnter(int row, int col) {
         if (currentPlayer.getBoard().canPlaceSheep(currentSheep, row, col)) {
-            previewSheep(row, col, Color.LIGHTGRAY); // Vorschau anzeigen
+            previewSheep(row, col); // Vorschau anzeigen
         }
     }
 
@@ -97,7 +94,12 @@ public class PlacementController {
         if (button == MouseButton.SECONDARY) { // Rechtsklick: Ausrichtung ändern
             toggleOrientation();
             clearPreview(); // Alte Vorschau entfernen
-            previewSheep(row, col, Color.LIGHTGRAY); // Neue Vorschau anzeigen
+
+            if (currentPlayer.getBoard().canPlaceSheep(currentSheep, row, col)) {
+                previewSheep(row, col); // Neue Vorschau anzeigen
+            } else {
+                System.out.println("Neue Ausrichtung ungültig!");
+            }
         } else if (button == MouseButton.PRIMARY && currentPlayer.getBoard().canPlaceSheep(currentSheep, row, col)) { // Linksklick: Platzieren
             placeSheep(row, col);
             currentSheepCount++;
@@ -112,31 +114,57 @@ public class PlacementController {
         currentSheep.setHorizontal(!currentSheep.isHorizontal());
     }
 
-    private void previewSheep(int row, int col, Color color) {
+    private void previewSheep(int row, int col) {
+        clearPreview(); // Alte Vorschau entfernen
+
+        Image sheepImage = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/sheep.jpg"));
+
         for (int i = 0; i < currentSheep.getSize(); i++) {
             int r = currentSheep.isHorizontal() ? row : row + i;
             int c = currentSheep.isHorizontal() ? col + i : col;
 
             if (r >= 0 && r < 10 && c >= 0 && c < 10) {
-                currentPlayer.getBoard().setCellColor(r, c, color);
+                if (currentPlayer.getBoard().canPlaceSheep(currentSheep, row, col)) {
+                    Cell cell = currentPlayer.getBoard().getCell(r, c);
+                    cell.getRectangle().setFill(new ImagePattern(sheepImage)); // Setze das Bild als Vorschau
+                    cell.getRectangle().setOpacity(0.5); // Halbe Transparenz für die Vorschau
+                }
             }
         }
     }
 
     private void clearPreview() {
         Board board = currentPlayer.getBoard();
+
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
                 Cell cell = board.getCell(row, col);
-                if (!cell.isOccupied()) { // Nur nicht belegte Zellen zurücksetzen
-                    cell.getRectangle().setFill(Color.LIGHTGREEN);
+                if (!cell.isOccupied()) {
+                    cell.getRectangle().setFill(new ImagePattern(
+                            new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/grass.jpg"))
+                    ));
+                    cell.getRectangle().setOpacity(1.0); // Volle Deckkraft wiederherstellen
                 }
             }
         }
     }
 
     private void placeSheep(int row, int col) {
-        currentPlayer.getBoard().placeSheep(currentSheep, row, col);
+        clearPreview(); // Entferne die Vorschau
+
+        Image sheepImage = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/sheep.jpg"));
+
+        for (int i = 0; i < currentSheep.getSize(); i++) {
+            int r = currentSheep.isHorizontal() ? row : row + i;
+            int c = currentSheep.isHorizontal() ? col + i : col;
+
+            if (r >= 0 && r < 10 && c >= 0 && c < 10) {
+                Cell cell = currentPlayer.getBoard().getCell(r, c);
+                cell.setOccupied(true);
+                cell.getRectangle().setFill(new ImagePattern(sheepImage)); // Setze das Schafbild als Füllung
+                cell.getRectangle().setOpacity(1.0); // Volle Deckkraft für gesetzte Schafe
+            }
+        }
     }
 
     private void switchToNextSheepOrPlayer() {
