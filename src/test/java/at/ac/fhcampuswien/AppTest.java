@@ -23,7 +23,7 @@ public class AppTest {
         try {
             // check correct constructor
             assertEquals(1,
-                    Arrays.stream(Board.class.getConstructors()).filter(constructor
+                    Arrays.stream(Cadastre.class.getConstructors()).filter(constructor
                             -> constructor.toString().equals("public at.ac.fhcampuswien.Cadastre(int,java.lang.String,int,int,java.time.LocalDate)")).count(),
                     "Constructor (int,java.lang.String,int,int,java.time.LocalDate) missing.");
         } catch (Exception e) {
