@@ -25,7 +25,7 @@ public class StartController {
         customFont = Font.loadFont(getClass().getResourceAsStream("/fonts/alagard.ttf"), 20);
 
         if (customFont == null) {
-            System.err.println("Failed to load custom font: alagard.ttf");
+            System.err.println("Failed to load font: alagard.ttf");
         } else {
             // Apply the font to the text fields
             player1Name.setFont(customFont);
@@ -60,6 +60,7 @@ public class StartController {
             Stage stage = (Stage) player1Name.getScene().getWindow();
             stage.setScene(scene);
         } catch (Exception e) {
+            System.err.println("Error loading placement.fxml:");
             e.printStackTrace();
         }
     }

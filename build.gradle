@@ -17,11 +17,14 @@ dependencies {
 
 javafx {
     version = "23.0.1"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    modules = [
+            'javafx.controls',
+            'javafx.fxml'
+    ]
 }
 
 application {
-    mainClass = 'at.ac.fhcampuswien.Main' // Deine Hauptklasse
+    mainClass = 'at.ac.fhcampuswien.Main' // Your main class
 }
 
 test {
