@@ -4,7 +4,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.PlacementController" spacing="20" alignment="CENTER" style="-fx-padding: 20;">
     <!-- Label für den aktuellen Spieler -->
-    <Label fx:id="playerLabel" text="Place Your Flocks!" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+    <Label fx:id="playerLabel" text="Place Your Flocks!" />
 
     <!-- StackPane für zentriertes Spielfeld -->
     <StackPane fx:id="boardContainer" maxWidth="400" maxHeight="400">

@@ -17,6 +17,22 @@ public class StartController {
     @FXML
     private TextField player2Name;
 
+    private Font customFont;
+
+    @FXML
+    public void initialize() {
+        // Load the custom font with 20px size
+        customFont = Font.loadFont(getClass().getResourceAsStream("/fonts/alagard.ttf"), 20);
+
+        if (customFont == null) {
+            System.err.println("Failed to load custom font: alagard.ttf");
+        } else {
+            // Apply the font to the text fields
+            player1Name.setFont(customFont);
+            player2Name.setFont(customFont);
+        }
+    }
+
     public void startGame() {
         String name1 = player1Name.getText().trim();
         String name2 = player2Name.getText().trim();
@@ -53,6 +69,10 @@ public class StartController {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
+
+        // Apply custom font to the alert dialog content
+        alert.getDialogPane().setStyle("-fx-font-family: 'Alagard'; -fx-font-size: 20px;");
+
         alert.showAndWait();
     }
 }

@@ -7,6 +7,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.text.Font;
 
 public class PlacementController {
 
@@ -60,24 +61,30 @@ public class PlacementController {
     }
 
     private void updatePlayerLabel() {
-        // Bestimme den Typ des aktuellen Flocks basierend auf der Größe
+        // Load the custom font (ensure this is done only once for performance)
+        Font alagardFont = Font.loadFont(getClass().getResourceAsStream("/fonts/alagard.ttf"), 20);
+
+        // Determine the type of flock based on size
         String flockType;
         switch (currentSheep.getSize()) {
             case 5 -> flockType = "XL-Flock";
             case 4 -> flockType = "L-Flock";
             case 3 -> flockType = "M-Flock";
             case 2 -> flockType = "S-Flock";
-            default -> flockType = "Unknown"; // Falls ein Fehler auftritt
+            default -> flockType = "Unknown"; // Fallback for errors
         }
 
-        // Singular oder Plural für "Flock(s)"
+        // Singular or plural for "Flock(s)"
         String flockText = (maxSheepCount - currentSheepCount) == 1 ? "" : "s";
 
-        // Aktualisiere das Label mit dem neuen Text
+        // Update the label with the new text
         playerLabel.setText(
                 currentPlayer.getName() + ", place your sheep! " +
                         (maxSheepCount - currentSheepCount) + " " + flockType + flockText + " left"
         );
+
+        // Apply the custom font to the label
+        playerLabel.setFont(alagardFont);
     }
 
     private void handleMouseEnter(int row, int col) {
