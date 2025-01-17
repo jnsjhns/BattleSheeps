@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien;
+package at.ac.fhcampuswien.model;
 
 import javafx.scene.Group;
 import javafx.scene.image.Image;

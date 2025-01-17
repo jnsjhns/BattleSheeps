@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien;
+package at.ac.fhcampuswien.model;
 
 public class Sheep {
     private final int size; // Größe des Schafs (z. B. 5 für XL-Flock)

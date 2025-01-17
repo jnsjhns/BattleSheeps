@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien;
+package at.ac.fhcampuswien.model;
 
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Color;
