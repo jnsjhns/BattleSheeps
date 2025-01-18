@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien;
 
+import at.ac.fhcampuswien.controller.StartController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -24,9 +25,14 @@ public class Main extends Application {
 
             // Load the FXML file
             System.out.println("Loading FXML...");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/start.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/view/start.fxml"));
             Scene scene = new Scene(loader.load());
             System.out.println("FXML loaded successfully.");
+
+            // Setze den SceneManager im Controller
+            SceneManager sceneManager = new SceneManager(primaryStage);
+            StartController controller = loader.getController();
+            controller.setSceneManager(sceneManager);
 
             // Set up the stage
             primaryStage.setTitle("BattleSheeps");

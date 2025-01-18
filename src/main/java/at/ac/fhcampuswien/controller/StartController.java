@@ -1,13 +1,12 @@
-package at.ac.fhcampuswien;
+package at.ac.fhcampuswien.controller;
 
+import at.ac.fhcampuswien.SceneManager;
+import at.ac.fhcampuswien.model.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 
 public class StartController {
 
@@ -16,6 +15,8 @@ public class StartController {
 
     @FXML
     private TextField player2Name;
+
+    private SceneManager sceneManager;
 
     private Font customFont;
 
@@ -43,26 +44,16 @@ public class StartController {
             return; // Abbruch, wenn Namen fehlen
         }
 
-        try {
-            // Spieler erstellen
-            Player player1 = new Player(name1);
-            Player player2 = new Player(name2);
+        // Spieler erstellen
+        Player player1 = new Player(name1);
+        Player player2 = new Player(name2);
 
-            // Wechsel zur placement.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/placement.fxml"));
-            Scene scene = new Scene(loader.load());
+        // Szenenwechsel
+        sceneManager.showPlacementView(player1, player2);
+    }
 
-            // Zugriff auf den PlacementController
-            PlacementController placementController = loader.getController();
-            placementController.setPlayers(player1, player2);
-
-            // Szenenwechsel
-            Stage stage = (Stage) player1Name.getScene().getWindow();
-            stage.setScene(scene);
-        } catch (Exception e) {
-            System.err.println("Error loading placement.fxml:");
-            e.printStackTrace();
-        }
+    public void setSceneManager(SceneManager sceneManager) {
+        this.sceneManager = sceneManager;
     }
 
     private void showAlert(String title, String message) {

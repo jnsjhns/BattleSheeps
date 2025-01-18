@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<HBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" spacing="20" alignment="CENTER" fx:controller="at.ac.fhcampuswien.controller.GameController">
+    <children>
+        <!-- Board von Spieler 1 -->
+        <StackPane fx:id="boardContainer" minWidth="300" minHeight="300" maxWidth="400" maxHeight="400">
+            <!-- Hier wird das Spielfeld von Spieler 1 angezeigt -->
+        </StackPane>
+
+        <!-- Board von Spieler 2 -->
+        <StackPane fx:id="opponentBoardContainer" minWidth="300" minHeight="300" maxWidth="400" maxHeight="400">
+            <!-- Hier wird das Spielfeld von Spieler 2 angezeigt -->
+        </StackPane>
+    </children>
+</HBox>

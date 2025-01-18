@@ -1,11 +1,12 @@
-package at.ac.fhcampuswien;
+package at.ac.fhcampuswien.controller;
 
+import at.ac.fhcampuswien.SceneManager;
+import at.ac.fhcampuswien.model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
 
@@ -23,6 +24,8 @@ public class PlacementController {
     private Sheep currentSheep; // Das aktuell zu platzierende Schaf
     private int currentSheepCount; // Anzahl der aktuellen Schafe
     private int maxSheepCount; // Maximale Anzahl an Schafen für die aktuelle Größe
+
+    private SceneManager sceneManager;
 
     public void setPlayers(Player player1, Player player2) {
         this.player1 = player1;
@@ -192,7 +195,13 @@ public class PlacementController {
             startPlacementPhase(); // Spieler 2 beginnt von vorne
         } else {
             System.out.println("Placement complete!");
-            // Szenenwechsel zur nächsten Phase hier einfügen.
+
+            // Szenenwechsel zur game.fxml
+            sceneManager.showGameView(player1, player2, player1.getBoard(), player2.getBoard());
         }
+    }
+
+    public void setSceneManager(SceneManager sceneManager) {
+        this.sceneManager = sceneManager;
     }
 }
