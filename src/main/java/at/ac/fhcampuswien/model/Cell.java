@@ -17,6 +17,7 @@ public class Cell {
     private static final Image grassShorn = new Image(Cell.class.getResourceAsStream("/at/ac/fhcampuswien/pictures/grass_shorn.jpg"));
     private static final Image sheep = new Image(Cell.class.getResourceAsStream("/at/ac/fhcampuswien/pictures/sheep.jpg"));
     private static final Image sheepShorn = new Image(Cell.class.getResourceAsStream("/at/ac/fhcampuswien/pictures/sheep_shorn.jpg"));
+    private static final Image flockShorn = new Image(Cell.class.getResourceAsStream(("/at/ac/fhcampuswien/pictures/flock_shorn.jpg")));
 
     public Cell(int row, int col, int size) {
         this.row = row;
@@ -75,6 +76,9 @@ public class Cell {
                 break;
             case "SHEEP_SHORN":
                 rectangle.setFill(new ImagePattern(sheepShorn));
+                break;
+            case "FLOCK_SHORN":
+                rectangle.setFill(new ImagePattern(flockShorn));
                 break;
             default:
                 throw new IllegalArgumentException("Unbekannter Zustand: " + state);

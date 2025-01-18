@@ -8,11 +8,6 @@ public class EndController {
     @FXML
     private Label winnerLabel;
 
-    @FXML
-    public void initialize() {
-        // Optional: Initialisierungslogik
-    }
-
     public void setWinner(Player winner) {
         if (winner != null) {
             winnerLabel.setText(winner.getName() + " wins!");

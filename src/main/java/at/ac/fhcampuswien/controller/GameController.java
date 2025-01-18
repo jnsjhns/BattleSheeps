@@ -6,17 +6,22 @@ import at.ac.fhcampuswien.model.Cell;
 import at.ac.fhcampuswien.model.Player;
 import at.ac.fhcampuswien.model.Sheep;
 import at.ac.fhcampuswien.view.BoardView;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 
-import static javafx.scene.paint.Color.YELLOW;
 
 public class GameController {
 
@@ -118,8 +123,11 @@ public class GameController {
         Cell cell = opponentPlayer.getBoard().getCell(row, col);
 
         if (!cell.wasSelectedBefore()) {
-            cell.getRectangle().setFill(YELLOW);
-            cell.getRectangle().setOpacity(0.5);
+            // Load the selection.jpg image
+            Image selectionImage = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/selection.jpg"));
+
+            // Set the image as the fill for the rectangle
+            cell.getRectangle().setFill(new ImagePattern(selectionImage));
         }
     }
 
@@ -157,7 +165,7 @@ public class GameController {
 
                     if (!sheep.notFullyShorn()) { // Is the sheep fully shorn?
                         System.out.println("Schaf vollständig geschoren!");
-                        //markSheepAsShorn(sheep);
+                        markSheepAsShorn(sheep);
                     }
                 }
 
@@ -204,29 +212,84 @@ public class GameController {
         return player.getBoard().getSheepList().stream().allMatch(s -> !s.notFullyShorn());
     }
 
-
     private void switchPlayers() {
-        // normaler Spielerwechsel
+        // Normal player switching
         Player temp = currentPlayer;
         currentPlayer = opponentPlayer;
         opponentPlayer = temp;
 
-        // Container und Labels leeren
+        // Clear containers and labels
         opponentBoardContainer.getChildren().clear();
         currentPlayerBoardContainer.getChildren().clear();
         opponentLabel.setText("");
         currentPlayerLabel.setText("");
 
-        // Button für das rechte Feld
+        // Set start.png as background for the left container (opponentBoardContainer)
+        StackPane startImagePane = new StackPane();
+        startImagePane.setStyle("-fx-background-image: url('/at/ac/fhcampuswien/pictures/start.png'); " +
+                "-fx-background-size: cover; " +
+                "-fx-background-position: center;");
+        startImagePane.setPrefSize(400, 400); // Adjust size as needed
+        opponentBoardContainer.getChildren().add(startImagePane);
+
+        // Load the Alagard font
+        Font alagardFont = Font.loadFont(getClass().getResourceAsStream("/fonts/alagard.ttf"), 20);
+
+        // Create the button
         Button changePlayerButton = new Button("Change of player");
-        changePlayerButton.setStyle("-fx-font-size: 20px; -fx-padding: 10px 20px;");
+        changePlayerButton.setStyle("-fx-padding: 10px 20px;");
+        changePlayerButton.setFont(alagardFont); // Set the custom font
+
+        // Add action to the button
         changePlayerButton.setOnAction(e -> {
             setupBoards();
             updateLabels();
         });
 
-        // Button zentriert im Container platzieren
-        StackPane buttonContainer = new StackPane(changePlayerButton);
+        // Create image views for the animation
+        Image animation1 = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/animation1.png"));
+        Image animation2 = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/animation2.png"));
+        Image animation3 = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/animation3.png"));
+
+        ImageView sheepImageView = new ImageView(animation1);
+        sheepImageView.setPreserveRatio(true);
+
+        // Create Timeline for the animation
+        Timeline animation = new Timeline(
+                new KeyFrame(Duration.seconds(0.8), new EventHandler<ActionEvent>() {
+                    private int loopCounter = 0;
+
+                    @Override
+                    public void handle(ActionEvent e) {
+                        if (sheepImageView.getImage() == animation1) {
+                            sheepImageView.setImage(animation2);
+                            loopCounter = 0;
+                        } else if (sheepImageView.getImage() == animation2) {
+                            sheepImageView.setImage(animation3);
+                            loopCounter++;
+                        } else if (sheepImageView.getImage() == animation3) {
+                            if (loopCounter < 5) {
+                                sheepImageView.setImage(animation2);
+                                loopCounter++;
+                            } else {
+                                sheepImageView.setImage(animation1);
+                                loopCounter = 0;
+                            }
+                        }
+                    }
+                })
+        );
+
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.play();
+
+        // Create a VBox to hold the image and the button
+        VBox buttonAndImageContainer = new VBox(20);
+        buttonAndImageContainer.setStyle("-fx-alignment: center;");
+        buttonAndImageContainer.getChildren().addAll(sheepImageView, changePlayerButton);
+
+        // Add the VBox to the right container (currentPlayerBoardContainer)
+        StackPane buttonContainer = new StackPane(buttonAndImageContainer);
         buttonContainer.setStyle("-fx-background-color: transparent;");
         buttonContainer.setPrefSize(400, 400);
         currentPlayerBoardContainer.getChildren().add(buttonContainer);

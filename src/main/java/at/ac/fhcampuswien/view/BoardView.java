@@ -2,11 +2,11 @@ package at.ac.fhcampuswien.view;
 
 import at.ac.fhcampuswien.model.Board;
 import at.ac.fhcampuswien.model.Cell;
+import at.ac.fhcampuswien.model.Sheep;
 import javafx.scene.Group;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+
 
 public class BoardView {
     private final Group root;
@@ -41,6 +41,30 @@ public class BoardView {
         }
     }
 
+    private void updateCellAppearance(Cell cell, boolean isOpponentView) {
+        if (cell.wasSelectedBefore()) {
+            if (cell.isOccupied()) {
+                Sheep sheep = board.getSheepAt(cell.getRow(), cell.getCol());
+                if (sheep != null && !sheep.notFullyShorn()) {
+                    // Fully shorn sheep
+                    cell.updateView("FLOCK_SHORN");
+                } else {
+                    // Partially shorn sheep
+                    cell.updateView("SHEEP_SHORN");
+                }
+            } else {
+                // Grass that was selected before
+                cell.updateView("GRASS_SHORN");
+            }
+        } else if (!isOpponentView && cell.isOccupied()) {
+            // Show unshorn sheep for current player
+            cell.updateView("SHEEP");
+        } else {
+            // Default grass image
+            cell.updateView("GRASS");
+        }
+    }
+
     public Group getCurrentPlayerView() {
         Cell[][] cells = board.getCells();
         Group playerView = new Group();
@@ -48,17 +72,8 @@ public class BoardView {
         for (int row = 0; row < cells.length; row++) {
             for (int col = 0; col < cells[row].length; col++) {
                 Cell cell = cells[row][col];
-                Rectangle rectangle = cell.getRectangle();
-
-                if (cell.isOccupied()) {
-                    Image sheepImage = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/sheep.jpg"));
-                    rectangle.setFill(new ImagePattern(sheepImage));
-                } else {
-                    Image grassImage = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/grass.jpg"));
-                    rectangle.setFill(new ImagePattern(grassImage));
-                }
-
-                playerView.getChildren().add(rectangle);
+                updateCellAppearance(cell, false); // Pass false for current player's view
+                playerView.getChildren().add(cell.getRectangle());
             }
         }
         return playerView;
@@ -67,26 +82,12 @@ public class BoardView {
     public Group getOpponentView() {
         Cell[][] cells = board.getCells();
         Group opponentView = new Group();
-        Image grassImage = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/grass.jpg"));
 
         for (int row = 0; row < cells.length; row++) {
             for (int col = 0; col < cells[row].length; col++) {
                 Cell cell = cells[row][col];
-                Rectangle rectangle = cell.getRectangle();
-
-                if (cell.wasSelectedBefore()) {
-                    if (cell.isOccupied()) {
-                        Image sheepShornImage = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/sheep_shorn.jpg"));
-                        rectangle.setFill(new ImagePattern(sheepShornImage));
-                    } else {
-                        Image grassShornImage = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/grass_shorn.jpg"));
-                        rectangle.setFill(new ImagePattern(grassShornImage));
-                    }
-                } else {
-                    rectangle.setFill(new ImagePattern(grassImage));
-                }
-
-                opponentView.getChildren().add(rectangle);
+                updateCellAppearance(cell, true); // Pass true for opponent's view
+                opponentView.getChildren().add(cell.getRectangle());
             }
         }
         return opponentView;
