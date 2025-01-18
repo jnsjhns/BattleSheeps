@@ -32,18 +32,19 @@ public class SceneManager {
     }
 
     // Wechsel zur GameView
-    public void showGameView(Player player1Name, Player player2Name, Board player1Ships, Board player2Ships) {
+    public void showGameView(Player player1, Player player2) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/view/game.fxml"));
             Scene scene = new Scene(loader.load());
             GameController controller = loader.getController();
-            controller.setSceneManager(this);  // SceneManager an den Controller übergeben
-            controller.initializeGame(player1Name, player2Name, player1Ships, player2Ships);
+            controller.setSceneManager(this);
+            controller.initializeGame(player1, player2);
             stage.setScene(scene);
         } catch (Exception e) {
             handleError(e);
         }
     }
+
 
 
     public void showEndView(Player winner) {
@@ -52,7 +53,7 @@ public class SceneManager {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/view/end.fxml"));
             Scene scene = new Scene(loader.load());
             EndController controller = loader.getController();
-            //controller.setWinner(winner);
+            controller.setWinner(winner);
 
             // Setze die Szene und zeige sie an
             stage.setScene(scene);

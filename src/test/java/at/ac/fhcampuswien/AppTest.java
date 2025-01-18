@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien;
 
+import at.ac.fhcampuswien.model.Board;
 import org.junit.jupiter.api.*;
 import java.util.Arrays;
 

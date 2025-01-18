@@ -18,12 +18,10 @@ public class StartController {
 
     private SceneManager sceneManager;
 
-    private Font customFont;
-
     @FXML
     public void initialize() {
         // Load the custom font with 20px size
-        customFont = Font.loadFont(getClass().getResourceAsStream("/fonts/alagard.ttf"), 20);
+        Font customFont = Font.loadFont(getClass().getResourceAsStream("/fonts/alagard.ttf"), 20);
 
         if (customFont == null) {
             System.err.println("Failed to load font: alagard.ttf");
