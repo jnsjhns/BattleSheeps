@@ -145,13 +145,19 @@ public class GameController {
                 System.out.println("Treffer!");
                 cell.updateView("SHEEP_SHORN");
 
+
                 Sheep sheep = opponentPlayer.getBoard().getSheepAt(row, col);
+                if (sheep != null) {
+                    System.out.println("Sheep found at (" + row + ", " + col + ") with unshorn parts: " + sheep.notFullyShorn());
+                } else {
+                    System.out.println("No sheep found at (" + row + ", " + col + ")");
+                }
                 if (sheep != null) {
                     sheep.shear(); // Shear the sheep
 
                     if (!sheep.notFullyShorn()) { // Is the sheep fully shorn?
                         System.out.println("Schaf vollständig geschoren!");
-                        markSheepAsShorn(sheep);
+                        //markSheepAsShorn(sheep);
                     }
                 }
 
@@ -192,6 +198,9 @@ public class GameController {
     }
 
     private boolean checkWinCondition(Player player) {
+        for (Sheep sheep : player.getBoard().getSheepList()) {
+            System.out.println("Sheep status: size=" + sheep.getSize() + ", unshorn=" + sheep.getUnshorn() + " notFullyShorn(): " + sheep.notFullyShorn());
+        }
         return player.getBoard().getSheepList().stream().allMatch(s -> !s.notFullyShorn());
     }
 

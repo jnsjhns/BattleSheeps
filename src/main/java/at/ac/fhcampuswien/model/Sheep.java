@@ -65,9 +65,14 @@ public class Sheep {
     public void shear() {
         if (unshorn > 0) {
             unshorn--;
+            System.out.println("Sheep shorn! Remaining unshorn parts: " + unshorn);
         } else {
-            System.out.println("Das Schaf ist bereits vollständig geschoren.");
+            System.out.println("The sheep is already fully shorn.");
         }
+    }
+
+    public int getUnshorn() {
+        return unshorn;
     }
 
     // Überprüfen, ob noch (teil-) ungeschoren
