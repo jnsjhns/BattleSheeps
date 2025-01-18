@@ -46,6 +46,8 @@ public class GameController {
     private BoardView opponentBoardView; // Ansicht des gegnerischen Boards
     private BoardView currentPlayerBoardView; // Ansicht des eigenen Boards
 
+    private boolean isFirstSwitch = true; // Initialzustand: erster Wechsel
+
     public void setSceneManager(SceneManager sceneManager) {
         this.sceneManager = sceneManager;
     }
@@ -54,12 +56,12 @@ public class GameController {
         this.player1 = player1;
         this.player2 = player2;
 
-        // Spieler 1 beginnt, Spieler 2 ist der Gegner
-        this.currentPlayer = player1;
-        this.opponentPlayer = player2;
+        // Spieler 1 beginnt nach dem Wechselscreen
+        this.currentPlayer = player2;
+        this.opponentPlayer = player1;
 
-        setupBoards();
-        updateLabels();
+        // Zeige den ersten Wechselscreen
+        switchPlayers(); // Ruft direkt den Wechselscreen auf
     }
 
     private void setupBoards() {
@@ -236,7 +238,15 @@ public class GameController {
         Font alagardFont = Font.loadFont(getClass().getResourceAsStream("/fonts/alagard.ttf"), 20);
 
         // Create the button
-        Button changePlayerButton = new Button("Change of player");
+        String buttonText;
+        if (isFirstSwitch) {
+            buttonText = currentPlayer.getName() + " begins"; // Nur beim ersten Wechsel
+            isFirstSwitch = false; // Danach wird diese Bedingung nie wieder erfüllt
+        } else {
+            buttonText = "Change of player"; // Für alle weiteren Wechsel
+        }
+
+        Button changePlayerButton = new Button(buttonText);
         changePlayerButton.setStyle("-fx-padding: 10px 20px;");
         changePlayerButton.setFont(alagardFont); // Set the custom font
 
