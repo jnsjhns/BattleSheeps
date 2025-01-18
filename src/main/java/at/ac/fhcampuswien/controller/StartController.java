@@ -21,7 +21,7 @@ public class StartController {
     @FXML
     public void initialize() {
         // Load the custom font with 20px size
-        Font customFont = Font.loadFont(getClass().getResourceAsStream("/fonts/alagard.ttf"), 20);
+        Font customFont = Font.loadFont(getClass().getResourceAsStream("/at/ac/fhcampuswien/fonts/alagard.ttf"), 20);
 
         if (customFont == null) {
             System.err.println("Failed to load font: alagard.ttf");

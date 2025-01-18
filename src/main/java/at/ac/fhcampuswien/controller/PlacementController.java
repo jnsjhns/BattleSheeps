@@ -70,7 +70,7 @@ public class PlacementController {
     }
 
     private void updatePlayerLabel() {
-        Font alagardFont = Font.loadFont(getClass().getResourceAsStream("/fonts/alagard.ttf"), 20);
+        Font alagardFont = Font.loadFont(getClass().getResourceAsStream("/at/ac/fhcampuswien/fonts/alagard.ttf"), 20);
 
         String flockType;
         switch (currentSheep.getSize()) {

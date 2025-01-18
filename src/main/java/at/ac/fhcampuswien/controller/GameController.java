@@ -1,7 +1,6 @@
 package at.ac.fhcampuswien.controller;
 
 import at.ac.fhcampuswien.SceneManager;
-import at.ac.fhcampuswien.model.Board;
 import at.ac.fhcampuswien.model.Cell;
 import at.ac.fhcampuswien.model.Player;
 import at.ac.fhcampuswien.model.Sheep;
@@ -109,7 +108,7 @@ public class GameController {
 
 
     private void updateLabels() {
-        Font customFont = Font.loadFont(getClass().getResourceAsStream("/fonts/alagard.ttf"), 20);
+        Font customFont = Font.loadFont(getClass().getResourceAsStream("/at/ac/fhcampuswien/fonts/alagard.ttf"), 20);
 
         // Aktualisiere die Beschriftungen mit zentriertem Text und benutzerdefinierter Schriftart
         opponentLabel.setText(opponentPlayer.getName() + "'s Flock");
@@ -235,7 +234,7 @@ public class GameController {
         opponentBoardContainer.getChildren().add(startImagePane);
 
         // Load the Alagard font
-        Font alagardFont = Font.loadFont(getClass().getResourceAsStream("/fonts/alagard.ttf"), 20);
+        Font alagardFont = Font.loadFont(getClass().getResourceAsStream("/at/ac/fhcampuswien/fonts/alagard.ttf"), 20);
 
         // Create the button
         String buttonText;

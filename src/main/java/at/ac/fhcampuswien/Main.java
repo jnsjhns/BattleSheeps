@@ -16,7 +16,7 @@ public class Main extends Application {
 
             // Load the custom font 'alagard.ttf'
             System.out.println("Loading font...");
-            Font alagardFont = Font.loadFont(getClass().getResourceAsStream("/fonts/alagard.ttf"), 20);
+            Font alagardFont = Font.loadFont(getClass().getResourceAsStream("/at/ac/fhcampuswien/fonts/alagard.ttf"), 20);
             if (alagardFont == null) {
                 System.err.println("Failed to load font: alagard.ttf");
             } else {
