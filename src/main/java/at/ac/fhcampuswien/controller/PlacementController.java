@@ -5,11 +5,11 @@ import at.ac.fhcampuswien.model.*;
 import at.ac.fhcampuswien.view.BoardView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
+
+
 
 public class PlacementController {
 
@@ -26,7 +26,6 @@ public class PlacementController {
     private int currentSheepCount; // Anzahl der aktuellen Schafe
     private int maxSheepCount; // Maximale Anzahl an Schafen für die aktuelle Größe
 
-    private BoardView currentBoardView; // Visuelle Darstellung des aktuellen Boards
     private SceneManager sceneManager;
 
     public void setPlayers(Player player1, Player player2) {
@@ -49,7 +48,8 @@ public class PlacementController {
         boardContainer.getChildren().clear();
 
         // Hol das aktuelle Board und seine View
-        currentBoardView = new BoardView(currentPlayer.getBoard());
+        // Visuelle Darstellung des aktuellen Boards
+        BoardView currentBoardView = new BoardView(currentPlayer.getBoard());
         boardContainer.getChildren().add(currentBoardView.getCurrentPlayerView());
 
         addEventHandlers(); // Event-Handler hinzufügen
@@ -81,6 +81,7 @@ public class PlacementController {
             default -> flockType = "Unknown";
         }
 
+        // ? Plural / Singular ?
         String flockText = (maxSheepCount - currentSheepCount) == 1 ? "" : "s";
 
         playerLabel.setText(
@@ -109,7 +110,7 @@ public class PlacementController {
             if (currentPlayer.getBoard().canPlaceSheep(currentSheep, row, col)) {
                 previewSheep(row, col);
             } else {
-                System.out.println("Neue Ausrichtung ungültig!");
+                System.out.println("Neue Ausrichtung ungueltig!");
             }
         } else if (button == MouseButton.PRIMARY && currentPlayer.getBoard().canPlaceSheep(currentSheep, row, col)) { // Linksklick: Platzieren
             placeSheep(row, col);
@@ -128,15 +129,13 @@ public class PlacementController {
     private void previewSheep(int row, int col) {
         clearPreview();
 
-        Image sheepImage = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/sheep.jpg"));
-
         for (int i = 0; i < currentSheep.getSize(); i++) {
             int r = currentSheep.isHorizontal() ? row : row + i;
             int c = currentSheep.isHorizontal() ? col + i : col;
 
             if (r >= 0 && r < 10 && c >= 0 && c < 10) {
                 Cell cell = currentPlayer.getBoard().getCell(r, c);
-                cell.getRectangle().setFill(new ImagePattern(sheepImage));
+                cell.updateView("SHEEP");
                 cell.getRectangle().setOpacity(0.5);
             }
         }
@@ -149,10 +148,8 @@ public class PlacementController {
             for (int col = 0; col < 10; col++) {
                 Cell cell = board.getCell(row, col);
                 if (!cell.isOccupied()) {
-                    cell.getRectangle().setFill(new ImagePattern(
-                            new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/grass.jpg"))
-                    ));
-                    cell.getRectangle().setOpacity(1.0);
+                    cell.updateView("GRASS");
+                    cell.getRectangle().setOpacity(1);
                 }
             }
         }
@@ -165,17 +162,15 @@ public class PlacementController {
         Sheep sheep = new Sheep(currentSheep.getSize(), row, col, currentSheep.isHorizontal());
 
         // Versuche, das Schaf im Board zu platzieren
-        if (currentPlayer.getBoard().placeSheep(sheep)) { // placeSheep gibt true zurück, wenn erfolgreich
-            // Aktualisiere die visuelle Darstellung
-            Image sheepImage = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/sheep.jpg"));
+        if (currentPlayer.getBoard().placeSheep(sheep)) { // placeSheep returns boolean
 
+            // Aktualisiere die visuelle Darstellung
             for (int i = 0; i < sheep.getSize(); i++) {
                 int r = sheep.isHorizontal() ? row : row + i;
                 int c = sheep.isHorizontal() ? col + i : col;
 
                 Cell cell = currentPlayer.getBoard().getCell(r, c);
-                cell.getRectangle().setFill(new ImagePattern(sheepImage));
-                cell.getRectangle().setOpacity(1.0);
+                cell.updateView("SHEEP");
             }
         } else {
             System.out.println("Schaf konnte nicht platziert werden.");
@@ -201,18 +196,23 @@ public class PlacementController {
             startPlacementPhase(); // Spieler 2 beginnt von vorne
         } else {
             System.out.println("Placement complete!");
+
+            // DEBUG-Anzeige
+            /*
             System.out.println("Player 1's sheep on board:");
             for (Sheep s : player1.getBoard().getSheepList()) {
                 System.out.println("Sheep at (" + s.getStartRow() + ", " + s.getStartCol() +
                         ") with size " + s.getSize() +
-                        " and unshorn parts: " + s.notFullyShorn()+ ", horizontal: " + s.isHorizontal());
+                        " and unshorn parts: " + s.hasUnshornParts()+ ", horizontal: " + s.isHorizontal());
             }
             System.out.println("Player 2's sheep on board:");
             for (Sheep s : player2.getBoard().getSheepList()) {
                 System.out.println("Sheep at (" + s.getStartRow() + ", " + s.getStartCol() +
                         ") with size " + s.getSize() +
-                        " and unshorn parts: " + s.notFullyShorn()+ ", horizontal: " + s.isHorizontal());
-            }
+                        " and unshorn parts: " + s.hasUnshornParts()+ ", horizontal: " + s.isHorizontal());
+
+             */
+
 
             // Szenenwechsel zur game.fxml
             sceneManager.showGameView(player1, player2);
@@ -223,3 +223,4 @@ public class PlacementController {
         this.sceneManager = sceneManager;
     }
 }
+

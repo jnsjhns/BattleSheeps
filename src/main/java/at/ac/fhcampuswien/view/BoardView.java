@@ -45,7 +45,7 @@ public class BoardView {
         if (cell.wasSelectedBefore()) {
             if (cell.isOccupied()) {
                 Sheep sheep = board.getSheepAt(cell.getRow(), cell.getCol());
-                if (sheep != null && !sheep.notFullyShorn()) {
+                if (sheep != null && sheep.isFullyShorn()) {
                     // Fully shorn sheep
                     cell.updateView("FLOCK_SHORN");
                 } else {
@@ -93,7 +93,4 @@ public class BoardView {
         return opponentView;
     }
 
-    public Rectangle getCellRectangle(int row, int col) {
-        return board.getCell(row, col).getRectangle();
-    }
 }

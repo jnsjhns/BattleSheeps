@@ -33,11 +33,6 @@ public class Sheep {
         this.unshorn = size; // Zu Beginn komplett ungeschoren
     }
 
-    public void setPosition(int startRow, int startCol) {
-        this.startRow = startRow;
-        this.startCol = startCol;
-    }
-
 
     public int getSize() {
         return size;
@@ -51,7 +46,6 @@ public class Sheep {
         isHorizontal = horizontal;
     }
 
-    // Getter für die Startposition
     public int getStartRow() {
         return startRow;
     }
@@ -63,20 +57,18 @@ public class Sheep {
 
     // Treffer auf das Schaf (reduziert die Gesundheit)
     public void shear() {
-        if (unshorn > 0) {
             unshorn--;
-            System.out.println("Sheep shorn! Remaining unshorn parts: " + unshorn);
-        } else {
-            System.out.println("The sheep is already fully shorn.");
-        }
+            // DEBUG-Ausgabe
+            // System.out.println("Sheep shorn! Remaining unshorn parts: " + unshorn);
     }
 
+    // only for Debugging
     public int getUnshorn() {
         return unshorn;
     }
 
     // Überprüfen, ob noch (teil-) ungeschoren
-    public boolean notFullyShorn() {
-        return unshorn > 0;
+    public boolean isFullyShorn() {
+        return unshorn <= 0;
     }
 }

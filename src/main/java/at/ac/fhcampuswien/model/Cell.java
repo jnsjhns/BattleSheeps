@@ -5,6 +5,8 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.util.Objects;
+
 public class Cell {
     private final int row;
     private final int col;
@@ -13,11 +15,12 @@ public class Cell {
     private final Rectangle rectangle; // Visuelle Darstellung der Zelle
 
     // Bilder für verschiedene Zustände
-    private static final Image grass = new Image(Cell.class.getResourceAsStream("/at/ac/fhcampuswien/pictures/grass.jpg"));
-    private static final Image grassShorn = new Image(Cell.class.getResourceAsStream("/at/ac/fhcampuswien/pictures/grass_shorn.jpg"));
-    private static final Image sheep = new Image(Cell.class.getResourceAsStream("/at/ac/fhcampuswien/pictures/sheep.jpg"));
-    private static final Image sheepShorn = new Image(Cell.class.getResourceAsStream("/at/ac/fhcampuswien/pictures/sheep_shorn.jpg"));
-    private static final Image flockShorn = new Image(Cell.class.getResourceAsStream(("/at/ac/fhcampuswien/pictures/flock_shorn.jpg")));
+    private static final Image grass = new Image(Objects.requireNonNull(Cell.class.getResourceAsStream("/at/ac/fhcampuswien/pictures/grass.jpg")));
+    private static final Image grassShorn = new Image(Objects.requireNonNull(Cell.class.getResourceAsStream("/at/ac/fhcampuswien/pictures/grass_shorn.jpg")));
+    private static final Image sheep = new Image(Objects.requireNonNull(Cell.class.getResourceAsStream("/at/ac/fhcampuswien/pictures/sheep.jpg")));
+    private static final Image sheepShorn = new Image(Objects.requireNonNull(Cell.class.getResourceAsStream("/at/ac/fhcampuswien/pictures/sheep_shorn.jpg")));
+    private static final Image flockShorn = new Image(Objects.requireNonNull(Cell.class.getResourceAsStream(("/at/ac/fhcampuswien/pictures/flock_shorn.jpg"))));
+    private static final Image selection = new Image(Objects.requireNonNull(Cell.class.getResourceAsStream(("/at/ac/fhcampuswien/pictures/selection.jpg"))));
 
     public Cell(int row, int col, int size) {
         this.row = row;
@@ -79,6 +82,9 @@ public class Cell {
                 break;
             case "FLOCK_SHORN":
                 rectangle.setFill(new ImagePattern(flockShorn));
+                break;
+            case "SELECTION":
+                rectangle.setFill(new ImagePattern(selection));
                 break;
             default:
                 throw new IllegalArgumentException("Unbekannter Zustand: " + state);

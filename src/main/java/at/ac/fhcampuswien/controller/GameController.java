@@ -16,10 +16,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
+
+import java.util.Objects;
 
 
 public class GameController {
@@ -37,14 +38,8 @@ public class GameController {
     private Label currentPlayerLabel;
 
     private SceneManager sceneManager;
-    private Player player1;
-    private Player player2;
     private Player currentPlayer; // Dynamisch: Der aktuelle Spieler
     private Player opponentPlayer; // Dynamisch: Der Gegner
-
-    private BoardView opponentBoardView; // Ansicht des gegnerischen Boards
-    private BoardView currentPlayerBoardView; // Ansicht des eigenen Boards
-
     private boolean isFirstSwitch = true; // Initialzustand: erster Wechsel
 
     public void setSceneManager(SceneManager sceneManager) {
@@ -52,20 +47,18 @@ public class GameController {
     }
 
     public void initializeGame(Player player1, Player player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+        this.currentPlayer = player1;
+        this.opponentPlayer = player2;
 
-        // Spieler 1 beginnt nach dem Wechselscreen
-        this.currentPlayer = player2;
-        this.opponentPlayer = player1;
-
-        // Zeige den ersten Wechselscreen
-        switchPlayers(); // Ruft direkt den Wechselscreen auf
+        // start with switch-screen
+        switchPlayers();
     }
 
     private void setupBoards() {
-        opponentBoardView = new BoardView(opponentPlayer.getBoard());
-        currentPlayerBoardView = new BoardView(currentPlayer.getBoard());
+        // Ansicht des gegnerischen Boards
+        BoardView opponentBoardView = new BoardView(opponentPlayer.getBoard());
+        // Ansicht des eigenen Boards
+        BoardView currentPlayerBoardView = new BoardView(currentPlayer.getBoard());
 
         opponentBoardContainer.getChildren().clear();
         currentPlayerBoardContainer.getChildren().clear();
@@ -97,6 +90,7 @@ public class GameController {
         }
     }
 
+    // disable Interactions on current Player Board View
     private void disableCurrentPlayerBoardInteractions() {
         Cell[][] cells = currentPlayer.getBoard().getCells();
         for (int row = 0; row < cells.length; row++) {
@@ -124,11 +118,8 @@ public class GameController {
         Cell cell = opponentPlayer.getBoard().getCell(row, col);
 
         if (!cell.wasSelectedBefore()) {
-            // Load the selection.jpg image
-            Image selectionImage = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/selection.jpg"));
-
             // Set the image as the fill for the rectangle
-            cell.getRectangle().setFill(new ImagePattern(selectionImage));
+            cell.updateView("SELECTION");
         }
     }
 
@@ -137,10 +128,9 @@ public class GameController {
     private void handleMouseExit(int row, int col) {
         Cell cell = opponentPlayer.getBoard().getCell(row, col);
 
-        if (!cell.wasSelectedBefore()) { // Nur wenn die Zelle noch nicht ausgewählt wurde
-            Image grassImage = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/grass.jpg"));
-            cell.getRectangle().setFill(new ImagePattern(grassImage));
-            cell.getRectangle().setOpacity(1.0); // Zurück zur normalen Ansicht
+        if (!cell.wasSelectedBefore()) {
+            cell.updateView("GRASS");
+            cell.getRectangle().setOpacity(1.0);
         }
     }
 
@@ -156,25 +146,26 @@ public class GameController {
 
 
                 Sheep sheep = opponentPlayer.getBoard().getSheepAt(row, col);
+                /*
+                // DEBUG-Ausgabe
                 if (sheep != null) {
-                    System.out.println("Sheep found at (" + row + ", " + col + ") with unshorn parts: " + sheep.notFullyShorn());
+                    System.out.println("Sheep found at (" + row + ", " + col + ") with unshorn parts: " + sheep.hasUnshornParts());
                 } else {
                     System.out.println("No sheep found at (" + row + ", " + col + ")");
-                }
+                } */
                 if (sheep != null) {
                     sheep.shear(); // Shear the sheep
 
-                    if (!sheep.notFullyShorn()) { // Is the sheep fully shorn?
-                        System.out.println("Schaf vollständig geschoren!");
+                    if (sheep.isFullyShorn()) { // Is the sheep fully shorn?
+                        // System.out.println("Sheep fully shorn!");
                         markSheepAsShorn(sheep);
                     }
                 }
 
                 // Check if all opponent's sheep are fully shorn (win condition)
                 if (checkWinCondition(opponentPlayer)) {
-                    System.out.println(currentPlayer.getName() + " hat gewonnen!");
+                    System.out.println(currentPlayer.getName() + " wins!");
                     sceneManager.showEndView(currentPlayer); // Switch to end scene
-                    return; // End the game here
                 }
             } else { // Miss!
                 System.out.println("Kein Treffer!");
@@ -192,8 +183,6 @@ public class GameController {
         int size = sheep.getSize();
         boolean isHorizontal = sheep.isHorizontal();
 
-        Image flockShornImage = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/flock_shorn.jpg"));
-
         for (int i = 0; i < size; i++) {
             int row = isHorizontal ? startRow : startRow + i;
             int col = isHorizontal ? startCol + i : startCol;
@@ -201,23 +190,26 @@ public class GameController {
             Cell cell = opponentPlayer.getBoard().getCell(row, col);
             if (cell != null) {
                 cell.updateView("FLOCK_SHORN");
-                cell.getRectangle().setFill(new ImagePattern(flockShornImage)); // Aktualisiere visuelle Darstellung
             }
         }
     }
 
     private boolean checkWinCondition(Player player) {
+        // DEBUG-Ausgabe:
+        /*
         for (Sheep sheep : player.getBoard().getSheepList()) {
-            System.out.println("Sheep status: size=" + sheep.getSize() + ", unshorn=" + sheep.getUnshorn() + " notFullyShorn(): " + sheep.notFullyShorn());
-        }
-        return player.getBoard().getSheepList().stream().allMatch(s -> !s.notFullyShorn());
+            System.out.println("Sheep status: size=" + sheep.getSize() + ", unshorn=" + sheep.getUnshorn() + " notFullyShorn(): " + sheep.hasUnshornParts());
+        } */
+        return player.getBoard().getSheepList().stream().allMatch(Sheep::isFullyShorn);
     }
 
     private void switchPlayers() {
         // Normal player switching
-        Player temp = currentPlayer;
-        currentPlayer = opponentPlayer;
-        opponentPlayer = temp;
+        if(!isFirstSwitch) {
+            Player temp = currentPlayer;
+            currentPlayer = opponentPlayer;
+            opponentPlayer = temp;
+        }
 
         // Clear containers and labels
         opponentBoardContainer.getChildren().clear();
@@ -256,16 +248,16 @@ public class GameController {
         });
 
         // Create image views for the animation
-        Image animation1 = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/animation1.png"));
-        Image animation2 = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/animation2.png"));
-        Image animation3 = new Image(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/animation3.png"));
+        Image animation1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/animation1.png")));
+        Image animation2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/animation2.png")));
+        Image animation3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/at/ac/fhcampuswien/pictures/animation3.png")));
 
         ImageView sheepImageView = new ImageView(animation1);
         sheepImageView.setPreserveRatio(true);
 
         // Create Timeline for the animation
         Timeline animation = new Timeline(
-                new KeyFrame(Duration.seconds(0.8), new EventHandler<ActionEvent>() {
+                new KeyFrame(Duration.seconds(0.8), new EventHandler<>() {
                     private int loopCounter = 0;
 
                     @Override
