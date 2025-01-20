@@ -7,12 +7,11 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.Objects;
 
-public class Cell {
+public class Cell extends Rectangle {
     private final int row;
     private final int col;
     private boolean isOccupied; // Gibt an, ob die Zelle belegt ist
     private boolean wasSelectedBefore; // Gibt an, ob die Zelle bereits ausgewählt wurde
-    private final Rectangle rectangle; // Visuelle Darstellung der Zelle
 
     // Bilder für verschiedene Zustände
     private static final Image grass = new Image(Objects.requireNonNull(Cell.class.getResourceAsStream("/at/ac/fhcampuswien/pictures/grass.jpg")));
@@ -29,12 +28,11 @@ public class Cell {
         this.wasSelectedBefore = false;
 
         // Erstelle das Rechteck für die visuelle Darstellung
-        this.rectangle = new Rectangle(size, size);
-        this.rectangle.setX(col * size);
-        this.rectangle.setY(row * size);
-        this.rectangle.setFill(new ImagePattern(grass)); // Standardbild
-        this.rectangle.setStroke(Color.BLACK);
-        this.rectangle.setStrokeWidth(1);
+        this.setX(col * size);
+        this.setY(row * size);
+        this.setFill(new ImagePattern(grass)); // Standardbild
+        this.setStroke(Color.BLACK);
+        this.setStrokeWidth(1);
     }
 
     public int getRow() {
@@ -61,30 +59,27 @@ public class Cell {
         this.wasSelectedBefore = wasSelectedBefore;
     }
 
-    public Rectangle getRectangle() {
-        return rectangle;
-    }
 
     // Aktualisiere das Bild basierend auf dem Zustand
     public void updateView(String state) {
         switch (state) {
             case "GRASS":
-                rectangle.setFill(new ImagePattern(grass));
+                this.setFill(new ImagePattern(grass));
                 break;
             case "GRASS_SHORN":
-                rectangle.setFill(new ImagePattern(grassShorn));
+                this.setFill(new ImagePattern(grassShorn));
                 break;
             case "SHEEP":
-                rectangle.setFill(new ImagePattern(sheep));
+                this.setFill(new ImagePattern(sheep));
                 break;
             case "SHEEP_SHORN":
-                rectangle.setFill(new ImagePattern(sheepShorn));
+                this.setFill(new ImagePattern(sheepShorn));
                 break;
             case "FLOCK_SHORN":
-                rectangle.setFill(new ImagePattern(flockShorn));
+                this.setFill(new ImagePattern(flockShorn));
                 break;
             case "SELECTION":
-                rectangle.setFill(new ImagePattern(selection));
+                this.setFill(new ImagePattern(selection));
                 break;
             default:
                 throw new IllegalArgumentException("Unbekannter Zustand: " + state);

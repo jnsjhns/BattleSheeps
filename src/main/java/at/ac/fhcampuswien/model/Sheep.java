@@ -5,7 +5,7 @@ public class Sheep {
     private boolean isHorizontal; // Ausrichtung des Schafs
     private int startRow; // Startreihe des Schafs
     private int startCol; // Startspalte des Schafs
-    private int unshorn; // Anzahl der ungeschorenen Einzelschafe
+    private int unshorn; // Anzahl der ungeschorenen Felder
 
     public Sheep(int size, int startRow, int startCol, boolean isHorizontal) {
         if (size <= 0) {
@@ -18,11 +18,11 @@ public class Sheep {
         this.size = size;
         this.startRow = startRow;
         this.startCol = startCol;
-        this.isHorizontal = isHorizontal;
-        this.unshorn = size; // Zu Beginn ist das Schaf vollständig "gesund"
+        this.isHorizontal = isHorizontal; // Standardmäßig horizontal
+        this.unshorn = size; // Zu Beginn komplett ungeschoren
     }
 
-    // Einfacher Konstruktor für temporäre Schafe (z. B. currentSheep)
+    // Konstruktor für temporäre Schafe / currentSheep
     public Sheep(int size) {
         if (size <= 0) {
             throw new IllegalArgumentException("Die Größe eines Schafs muss größer als 0 sein.");
@@ -55,19 +55,19 @@ public class Sheep {
     }
 
 
-    // Treffer auf das Schaf (reduziert die Gesundheit)
+    // Feld eines Schafs gefunden, unshorn--
     public void shear() {
             unshorn--;
             // DEBUG-Ausgabe
             // System.out.println("Sheep shorn! Remaining unshorn parts: " + unshorn);
     }
 
-    // only for Debugging
+    /* only used for Debugging
     public int getUnshorn() {
         return unshorn;
-    }
+    } */
 
-    // Überprüfen, ob noch (teil-) ungeschoren
+    // Überprüfen, ob komplett geschoren
     public boolean isFullyShorn() {
         return unshorn <= 0;
     }

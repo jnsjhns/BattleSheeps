@@ -62,9 +62,9 @@ public class PlacementController {
                 final int finalRow = row;
                 final int finalCol = col;
 
-                board.getCell(row, col).getRectangle().setOnMouseEntered(event -> handleMouseEnter(finalRow, finalCol));
-                board.getCell(row, col).getRectangle().setOnMouseExited(event -> handleMouseExit(finalRow, finalCol));
-                board.getCell(row, col).getRectangle().setOnMouseClicked(event -> handleMouseClick(finalRow, finalCol, event.getButton()));
+                board.getCell(row, col).setOnMouseEntered(event -> handleMouseEnter(finalRow, finalCol));
+                board.getCell(row, col).setOnMouseExited(event -> handleMouseExit());
+                board.getCell(row, col).setOnMouseClicked(event -> handleMouseClick(finalRow, finalCol, event.getButton()));
             }
         }
     }
@@ -98,7 +98,7 @@ public class PlacementController {
         }
     }
 
-    private void handleMouseExit(int row, int col) {
+    private void handleMouseExit() {
         clearPreview();
     }
 
@@ -136,7 +136,7 @@ public class PlacementController {
             if (r >= 0 && r < 10 && c >= 0 && c < 10) {
                 Cell cell = currentPlayer.getBoard().getCell(r, c);
                 cell.updateView("SHEEP");
-                cell.getRectangle().setOpacity(0.5);
+                cell.setOpacity(0.5);
             }
         }
     }
@@ -149,7 +149,7 @@ public class PlacementController {
                 Cell cell = board.getCell(row, col);
                 if (!cell.isOccupied()) {
                     cell.updateView("GRASS");
-                    cell.getRectangle().setOpacity(1);
+                    cell.setOpacity(1);
                 }
             }
         }

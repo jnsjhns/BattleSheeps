@@ -5,7 +5,6 @@ import at.ac.fhcampuswien.model.Cell;
 import at.ac.fhcampuswien.model.Sheep;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 
 public class BoardView {
@@ -24,19 +23,18 @@ public class BoardView {
         for (int row = 0; row < cells.length; row++) {
             for (int col = 0; col < cells[row].length; col++) {
                 Cell cell = cells[row][col];
-                Rectangle rectangle = cell.getRectangle();
 
                 // Position setzen
-                rectangle.setX(col * CELL_SIZE);
-                rectangle.setY(row * CELL_SIZE);
-                rectangle.setWidth(CELL_SIZE);
-                rectangle.setHeight(CELL_SIZE);
+                cell.setX(col * CELL_SIZE);
+                cell.setY(row * CELL_SIZE);
+                cell.setWidth(CELL_SIZE);
+                cell.setHeight(CELL_SIZE);
 
                 // Rahmen hinzufügen
-                rectangle.setStroke(Color.BLACK);
-                rectangle.setStrokeWidth(1);
+                cell.setStroke(Color.BLACK);
+                cell.setStrokeWidth(1);
 
-                root.getChildren().add(rectangle);
+                root.getChildren().add(cell);
             }
         }
     }
@@ -69,11 +67,10 @@ public class BoardView {
         Cell[][] cells = board.getCells();
         Group playerView = new Group();
 
-        for (int row = 0; row < cells.length; row++) {
-            for (int col = 0; col < cells[row].length; col++) {
-                Cell cell = cells[row][col];
+        for (Cell[] value : cells) {
+            for (Cell cell : value) {
                 updateCellAppearance(cell, false); // Pass false for current player's view
-                playerView.getChildren().add(cell.getRectangle());
+                playerView.getChildren().add(cell);
             }
         }
         return playerView;
@@ -83,11 +80,10 @@ public class BoardView {
         Cell[][] cells = board.getCells();
         Group opponentView = new Group();
 
-        for (int row = 0; row < cells.length; row++) {
-            for (int col = 0; col < cells[row].length; col++) {
-                Cell cell = cells[row][col];
+        for (Cell[] value : cells) {
+            for (Cell cell : value) {
                 updateCellAppearance(cell, true); // Pass true for opponent's view
-                opponentView.getChildren().add(cell.getRectangle());
+                opponentView.getChildren().add(cell);
             }
         }
         return opponentView;

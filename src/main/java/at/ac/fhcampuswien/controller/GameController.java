@@ -16,7 +16,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
@@ -79,13 +78,11 @@ public class GameController {
                 final int finalCol = col;
 
                 Cell cell = cells[row][col];
-                Rectangle cellRect = cell.getRectangle();
+                cell.setOnMouseEntered(event -> handleMouseEnter(finalRow, finalCol));
+                cell.setOnMouseExited(event -> handleMouseExit(finalRow, finalCol));
+                cell.setOnMouseClicked(event -> handleCellClick(finalRow, finalCol));
 
-                cellRect.setOnMouseEntered(event -> handleMouseEnter(finalRow, finalCol));
-                cellRect.setOnMouseExited(event -> handleMouseExit(finalRow, finalCol));
-                cellRect.setOnMouseClicked(event -> handleCellClick(finalRow, finalCol));
-
-                cellRect.setMouseTransparent(false);
+                cell.setMouseTransparent(false);
             }
         }
     }
@@ -93,9 +90,9 @@ public class GameController {
     // disable Interactions on current Player Board View
     private void disableCurrentPlayerBoardInteractions() {
         Cell[][] cells = currentPlayer.getBoard().getCells();
-        for (int row = 0; row < cells.length; row++) {
-            for (int col = 0; col < cells[row].length; col++) {
-                cells[row][col].getRectangle().setMouseTransparent(true);
+        for (Cell[] cell : cells) {
+            for (Cell value : cell) {
+                value.setMouseTransparent(true);
             }
         }
     }
@@ -130,7 +127,7 @@ public class GameController {
 
         if (!cell.wasSelectedBefore()) {
             cell.updateView("GRASS");
-            cell.getRectangle().setOpacity(1.0);
+            cell.setOpacity(1.0);
         }
     }
 
@@ -222,7 +219,7 @@ public class GameController {
         startImagePane.setStyle("-fx-background-image: url('/at/ac/fhcampuswien/pictures/start.png'); " +
                 "-fx-background-size: cover; " +
                 "-fx-background-position: center;");
-        startImagePane.setPrefSize(400, 400); // Adjust size as needed
+        startImagePane.setPrefSize(400, 400);
         opponentBoardContainer.getChildren().add(startImagePane);
 
         // Load the Alagard font
