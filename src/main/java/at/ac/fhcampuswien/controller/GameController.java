@@ -54,9 +54,7 @@ public class GameController {
     }
 
     private void setupBoards() {
-        // Ansicht des gegnerischen Boards
         BoardView opponentBoardView = new BoardView(opponentPlayer.getBoard());
-        // Ansicht des eigenen Boards
         BoardView currentPlayerBoardView = new BoardView(currentPlayer.getBoard());
 
         opponentBoardContainer.getChildren().clear();
@@ -101,7 +99,7 @@ public class GameController {
     private void updateLabels() {
         Font customFont = Font.loadFont(getClass().getResourceAsStream("/at/ac/fhcampuswien/fonts/alagard.ttf"), 20);
 
-        // Aktualisiere die Beschriftungen mit zentriertem Text und benutzerdefinierter Schriftart
+        // Update the labels with centered text and custom font
         opponentLabel.setText(opponentPlayer.getName() + "'s Flock");
         opponentLabel.setFont(customFont);
         opponentLabel.setStyle("-fx-alignment: center;");
@@ -115,7 +113,6 @@ public class GameController {
         Cell cell = opponentPlayer.getBoard().getCell(row, col);
 
         if (!cell.wasSelectedBefore()) {
-            // Set the image as the fill for the rectangle
             cell.updateView("SELECTION");
         }
     }
@@ -138,20 +135,20 @@ public class GameController {
             cell.setWasSelectedBefore(true);
 
             if (cell.isOccupied()) { // Hit!
-                System.out.println("Treffer!");
+                // System.out.println("Hit!");
                 cell.updateView("SHEEP_SHORN");
 
 
                 Sheep sheep = opponentPlayer.getBoard().getSheepAt(row, col);
                 /*
-                // DEBUG-Ausgabe
+                // DEBUG output
                 if (sheep != null) {
                     System.out.println("Sheep found at (" + row + ", " + col + ") with unshorn parts: " + sheep.hasUnshornParts());
                 } else {
                     System.out.println("No sheep found at (" + row + ", " + col + ")");
                 } */
                 if (sheep != null) {
-                    sheep.shear(); // Shear the sheep
+                    sheep.shear();
 
                     if (sheep.isFullyShorn()) { // Is the sheep fully shorn?
                         // System.out.println("Sheep fully shorn!");
@@ -161,11 +158,11 @@ public class GameController {
 
                 // Check if all opponent's sheep are fully shorn (win condition)
                 if (checkWinCondition(opponentPlayer)) {
-                    System.out.println(currentPlayer.getName() + " wins!");
+                    // System.out.println(currentPlayer.getName() + " wins!");
                     sceneManager.showEndView(currentPlayer); // Switch to end scene
                 }
             } else { // Miss!
-                System.out.println("Kein Treffer!");
+                // System.out.println("Miss!");
                 switchPlayers();
             }
         } else {

@@ -1,36 +1,33 @@
 package at.ac.fhcampuswien.model;
 
 public class Sheep {
-    private final int size; // Größe des Schafs (z. B. 5 für XL-Flock)
-    private boolean isHorizontal; // Ausrichtung des Schafs
-    private int startRow; // Startreihe des Schafs
-    private int startCol; // Startspalte des Schafs
-    private int unshorn; // Anzahl der ungeschorenen Felder
+    private final int size; // Size of the sheep (e.g. 5 for XL flock)
+    private boolean isHorizontal; // Sheep alignment, horizontal by default
+    private int startRow;
+    private int startCol;
+    private int unshorn; // Number of unshorn single sheep
 
     public Sheep(int size, int startRow, int startCol, boolean isHorizontal) {
+        /*
         if (size <= 0) {
-            throw new IllegalArgumentException("Die Größe eines Schafs muss größer als 0 sein.");
+            throw new IllegalArgumentException("Size of the sheep must be >0.");
         }
         if (startRow < 0 || startCol < 0) {
-            throw new IllegalArgumentException("Startreihe und Startspalte müssen positive Werte sein.");
-        }
+            throw new IllegalArgumentException("Start row and column must be positive.");
+        } */
 
         this.size = size;
         this.startRow = startRow;
         this.startCol = startCol;
-        this.isHorizontal = isHorizontal; // Standardmäßig horizontal
-        this.unshorn = size; // Zu Beginn komplett ungeschoren
+        this.isHorizontal = isHorizontal;
+        this.unshorn = size;
     }
 
-    // Konstruktor für temporäre Schafe / currentSheep
+    // Constructor for temporary sheep / currentSheep
     public Sheep(int size) {
-        if (size <= 0) {
-            throw new IllegalArgumentException("Die Größe eines Schafs muss größer als 0 sein.");
-        }
-
         this.size = size;
-        this.isHorizontal = true; // Standardmäßig horizontal
-        this.unshorn = size; // Zu Beginn komplett ungeschoren
+        this.isHorizontal = true;
+        this.unshorn = size;
     }
 
 
@@ -55,7 +52,6 @@ public class Sheep {
     }
 
 
-    // Feld eines Schafs gefunden, unshorn--
     public void shear() {
             unshorn--;
             // DEBUG-Ausgabe
@@ -67,7 +63,7 @@ public class Sheep {
         return unshorn;
     } */
 
-    // Überprüfen, ob komplett geschoren
+
     public boolean isFullyShorn() {
         return unshorn <= 0;
     }

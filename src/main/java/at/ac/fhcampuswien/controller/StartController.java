@@ -28,11 +28,11 @@ public class StartController {
         String name1 = player1Name.getText().trim();
         String name2 = player2Name.getText().trim();
 
-        // Spieler erstellen
+        // initialise Players
         Player player1 = new Player(name1);
         Player player2 = new Player(name2);
 
-        // Szenenwechsel
+        // Scene change to placement
         sceneManager.showPlacementView(player1, player2);
     }
 

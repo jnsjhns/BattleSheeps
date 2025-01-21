@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    private final Cell[][] cells; // 2D-Array von Cell-Objekten
-    private final List<Sheep> sheepList; // Liste der Schafe auf dem Board
+    private final Cell[][] cells;
+    private final List<Sheep> sheepList; // List of sheep on the board
 
     public Board(int rows, int cols) {
         cells = new Cell[rows][cols];
@@ -30,10 +30,7 @@ public class Board {
     }
 
     public Cell getCell(int row, int col) {
-        if (row >= 0 && row < cells.length && col >= 0 && col < cells[0].length) {
             return cells[row][col];
-        }
-        return null; // Ungültige Koordinaten
     }
 
     public boolean canPlaceSheep(Sheep sheep, int row, int col) {
@@ -45,7 +42,7 @@ public class Board {
                 return false;
             }
 
-            // Überprüfen auf direkte Nachbarschaft
+            // Check for direct neighbourhood
             if ((r > 0 && isCellOccupied(r - 1, c)) ||
                     (r < cells.length - 1 && isCellOccupied(r + 1, c)) ||
                     (c > 0 && isCellOccupied(r, c - 1)) ||
@@ -60,19 +57,19 @@ public class Board {
         int row = sheep.getStartRow();
         int col = sheep.getStartCol();
 
-        if (canPlaceSheep(sheep, row, col)) { // Überprüfe, ob das Schaf platziert werden kann
+        if (canPlaceSheep(sheep, row, col)) {
             for (int i = 0; i < sheep.getSize(); i++) {
                 int r = sheep.isHorizontal() ? row : row + i;
                 int c = sheep.isHorizontal() ? col + i : col;
 
                 Cell cell = cells[r][c];
-                cell.setOccupied(true); // Markiere die Zelle als belegt
+                cell.setOccupied(true);
             }
 
-            sheepList.add(sheep); // Füge das Schaf zur Liste hinzu
-            return true; // Platzieren erfolgreich
+            sheepList.add(sheep);
+            return true; // Successful placement
         } else {
-            return false; // Platzieren fehlgeschlagen
+            return false; // Placement failed
         }
     }
 
@@ -87,17 +84,17 @@ public class Board {
 
             if (isHorizontal) {
                 if (row == startRow && col >= startCol && col < startCol + size) {
-                    System.out.println("Found horizontal sheep at (" + row + ", " + col + ")");
+                    // System.out.println("Found horizontal sheep at (" + row + ", " + col + ")");
                     return sheep;
                 }
             } else { // Vertical
                 if (col == startCol && row >= startRow && row < startRow + size) {
-                    System.out.println("Found vertical sheep at (" + row + ", " + col + ")");
+                    // System.out.println("Found vertical sheep at (" + row + ", " + col + ")");
                     return sheep;
                 }
             }
         }
-        System.out.println("No sheep found at (" + row + ", " + col + ")");
+        // System.out.println("No sheep found at (" + row + ", " + col + ")");
         return null;
     }
 

@@ -12,24 +12,25 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            System.out.println("Starting application...");
 
             // Load the custom font 'alagard.ttf'
             System.out.println("Loading font...");
             Font alagardFont = Font.loadFont(getClass().getResourceAsStream("/at/ac/fhcampuswien/fonts/alagard.ttf"), 20);
+            /*
             if (alagardFont == null) {
                 System.err.println("Failed to load font: alagard.ttf");
             } else {
                 System.out.println("Custom font loaded successfully.");
-            }
+            } */
+
 
             // Load the FXML file
             System.out.println("Loading FXML...");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/view/start.fxml"));
             Scene scene = new Scene(loader.load());
-            System.out.println("FXML loaded successfully.");
+            // System.out.println("FXML loaded successfully.");
 
-            // Setze den SceneManager im Controller
+            // Set the SceneManager in the controller
             SceneManager sceneManager = new SceneManager(primaryStage);
             StartController controller = loader.getController();
             controller.setSceneManager(sceneManager);

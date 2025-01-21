@@ -16,11 +16,11 @@
         </image>
     </ImageView>
 
-    <!-- Eingabe für Player 1 -->
+    <!-- Input for player 1 -->
     <Label text="Player 1 Name:" style="-fx-font-family: 'Alagard'; -fx-font-size: 20px;" />
     <TextField fx:id="player1Name" promptText="Enter Player 1 Name" style="-fx-font-family: 'Alagard'; -fx-font-size: 20px;" />
 
-    <!-- Eingabe für Player 2 -->
+    <!-- Input for Player 2 -->
     <Label text="Player 2 Name:" style="-fx-font-family: 'Alagard'; -fx-font-size: 20px;" />
     <TextField fx:id="player2Name" promptText="Enter Player 2 Name" style="-fx-font-family: 'Alagard'; -fx-font-size: 20px;" />
 

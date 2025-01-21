@@ -24,13 +24,13 @@ public class BoardView {
             for (int col = 0; col < cells[row].length; col++) {
                 Cell cell = cells[row][col];
 
-                // Position setzen
+                // Set position
                 cell.setX(col * CELL_SIZE);
                 cell.setY(row * CELL_SIZE);
                 cell.setWidth(CELL_SIZE);
                 cell.setHeight(CELL_SIZE);
 
-                // Rahmen hinzufügen
+                // Add frame
                 cell.setStroke(Color.BLACK);
                 cell.setStrokeWidth(1);
 

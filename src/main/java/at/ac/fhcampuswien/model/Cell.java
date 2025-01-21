@@ -10,10 +10,10 @@ import java.util.Objects;
 public class Cell extends Rectangle {
     private final int row;
     private final int col;
-    private boolean isOccupied; // Gibt an, ob die Zelle belegt ist
-    private boolean wasSelectedBefore; // Gibt an, ob die Zelle bereits ausgewählt wurde
+    private boolean isOccupied;
+    private boolean wasSelectedBefore;
 
-    // Bilder für verschiedene Zustände
+    // Pictures for different states
     private static final Image grass = new Image(Objects.requireNonNull(Cell.class.getResourceAsStream("/at/ac/fhcampuswien/pictures/grass.jpg")));
     private static final Image grassShorn = new Image(Objects.requireNonNull(Cell.class.getResourceAsStream("/at/ac/fhcampuswien/pictures/grass_shorn.jpg")));
     private static final Image sheep = new Image(Objects.requireNonNull(Cell.class.getResourceAsStream("/at/ac/fhcampuswien/pictures/sheep.jpg")));
@@ -27,10 +27,10 @@ public class Cell extends Rectangle {
         this.isOccupied = false;
         this.wasSelectedBefore = false;
 
-        // Erstelle das Rechteck für die visuelle Darstellung
+        // Initiate rectangle (Cell is subtype of Rectangle)
         this.setX(col * size);
         this.setY(row * size);
-        this.setFill(new ImagePattern(grass)); // Standardbild
+        this.setFill(new ImagePattern(grass)); // Standard picture
         this.setStroke(Color.BLACK);
         this.setStrokeWidth(1);
     }
@@ -60,7 +60,7 @@ public class Cell extends Rectangle {
     }
 
 
-    // Aktualisiere das Bild basierend auf dem Zustand
+    // Update the image based on the state
     public void updateView(String state) {
         switch (state) {
             case "GRASS":
@@ -82,7 +82,7 @@ public class Cell extends Rectangle {
                 this.setFill(new ImagePattern(selection));
                 break;
             default:
-                throw new IllegalArgumentException("Unbekannter Zustand: " + state);
+                throw new IllegalArgumentException("Unknown State: " + state);
         }
     }
 }

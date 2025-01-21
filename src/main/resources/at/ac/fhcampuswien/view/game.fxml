@@ -4,30 +4,41 @@
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
 
+<!-- Root layout is a BorderPane, which allows placing elements in top, bottom, left, right, and center regions -->
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="at.ac.fhcampuswien.controller.GameController"
             style="-fx-background-color: transparent;">
 
+    <!-- Center region of the BorderPane -->
     <center>
+        <!-- A VBox (Vertical Box) for vertically arranging child elements -->
         <VBox alignment="TOP_CENTER">
+            <!-- First HBox (Horizontal Box) for displaying labels -->
             <HBox alignment="CENTER" spacing="400">
+                <!-- Padding around the HBox -->
                 <padding>
                     <Insets top="40" bottom="20"/>
                 </padding>
+                <!-- Label to display opponent's name or status -->
                 <Label fx:id="opponentLabel" styleClass="game-label"/>
+                <!-- Label to display the current player's name or status -->
                 <Label fx:id="currentPlayerLabel" styleClass="game-label"/>
             </HBox>
 
+            <!-- Second HBox for arranging the game boards horizontally -->
             <HBox alignment="CENTER" spacing="60" style="-fx-background-color: transparent;">
+                <!-- Padding around the HBox -->
                 <padding>
                     <Insets left="40" right="40" bottom="40"/>
                 </padding>
+                <!-- StackPane to contain and manage the opponent's game board -->
                 <StackPane fx:id="opponentBoardContainer"
                            prefWidth="400"
                            prefHeight="400"
                            style="-fx-background-color: transparent;"
                            mouseTransparent="false"/>
 
+                <!-- StackPane to contain and manage the current player's game board -->
                 <StackPane fx:id="currentPlayerBoardContainer"
                            prefWidth="400"
                            prefHeight="400"

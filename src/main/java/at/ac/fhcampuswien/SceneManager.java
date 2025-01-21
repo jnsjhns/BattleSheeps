@@ -1,7 +1,6 @@
 package at.ac.fhcampuswien;
 
 import at.ac.fhcampuswien.controller.*;
-import at.ac.fhcampuswien.model.Board;
 import at.ac.fhcampuswien.model.Player;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
