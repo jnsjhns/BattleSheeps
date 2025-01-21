@@ -10,13 +10,9 @@ public class EndController {
     private Label winnerLabel;
 
     public void setWinner(Player winner) {
-        if (winner != null) {
             Font customFont = Font.loadFont(getClass().getResourceAsStream("/at/ac/fhcampuswien/fonts/alagard.ttf"), 20);
             winnerLabel.setText(winner.getName() + " wins!");
             winnerLabel.setFont(customFont);
             winnerLabel.setStyle("-fx-alignment: center;");
-        } else {
-            winnerLabel.setText("No winner!");
-        }
     }
 }

@@ -157,6 +157,7 @@ public class PlacementController {
         }
     }
 
+
     private void placeSheep(int row, int col) {
         clearPreview();
 
