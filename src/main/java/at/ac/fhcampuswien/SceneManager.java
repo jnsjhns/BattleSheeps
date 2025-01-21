@@ -48,7 +48,7 @@ public class SceneManager {
 
     public void showEndView(Player winner, Player loser) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/view/end.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/scenes/end.fxml"));
             Scene scene = new Scene(loader.load());
             EndController controller = loader.getController();
             controller.setEnding(winner, loser);
