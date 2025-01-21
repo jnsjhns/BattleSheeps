@@ -26,7 +26,7 @@ public class Main extends Application {
 
             // Load the FXML file
             System.out.println("Loading FXML...");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/view/start.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/scenes/start.fxml"));
             Scene scene = new Scene(loader.load());
             // System.out.println("FXML loaded successfully.");
 

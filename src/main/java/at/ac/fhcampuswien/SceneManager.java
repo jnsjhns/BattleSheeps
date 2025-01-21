@@ -19,7 +19,7 @@ public class SceneManager {
     // Wechsel zur PlacementView
     public void showPlacementView(Player player1Name, Player player2Name) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/view/placement.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/scenes/placement.fxml"));
             Scene scene = new Scene(loader.load());
             PlacementController controller = loader.getController();
             controller.setSceneManager(this);  // SceneManager an den Controller übergeben
@@ -33,7 +33,7 @@ public class SceneManager {
     // Wechsel zur GameView
     public void showGameView(Player player1, Player player2) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/view/game.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/scenes/game.fxml"));
             Scene scene = new Scene(loader.load());
             GameController controller = loader.getController();
             controller.setSceneManager(this);

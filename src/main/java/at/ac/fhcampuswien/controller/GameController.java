@@ -37,9 +37,9 @@ public class GameController {
     private Label currentPlayerLabel;
 
     private SceneManager sceneManager;
-    private Player currentPlayer; // Dynamisch: Der aktuelle Spieler
-    private Player opponentPlayer; // Dynamisch: Der Gegner
-    private boolean isFirstSwitch = true; // Initialzustand: erster Wechsel
+    private Player currentPlayer;
+    private Player opponentPlayer;
+    private boolean isFirstSwitch = true;
 
     public void setSceneManager(SceneManager sceneManager) {
         this.sceneManager = sceneManager;
@@ -152,7 +152,7 @@ public class GameController {
 
                     if (sheep.isFullyShorn()) { // Is the sheep fully shorn?
                         // System.out.println("Sheep fully shorn!");
-                        markSheepAsShorn(sheep);
+                        markSheepAsFullyShorn(sheep);
                     }
                 }
 
@@ -171,7 +171,7 @@ public class GameController {
     }
 
 
-    private void markSheepAsShorn(Sheep sheep) {
+    private void markSheepAsFullyShorn(Sheep sheep) {
         int startRow = sheep.getStartRow();
         int startCol = sheep.getStartCol();
         int size = sheep.getSize();
