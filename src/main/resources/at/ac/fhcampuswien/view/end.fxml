@@ -1,13 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="at.ac.fhcampuswien.controller.EndController"
-            prefHeight="400.0" prefWidth="600.0">
-    <Label fx:id="winnerLabel"
-           layoutX="200" layoutY="150"
-           style="-fx-font-size: 24px;"/>
-</AnchorPane>
+<!-- Root layout is a VBox for vertical arrangement -->
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="at.ac.fhcampuswien.controller.EndController"
+      alignment="TOP_CENTER"
+      spacing="20"
+      style="-fx-background-color: transparent;">
+
+    <!-- Label at the top for displaying the winner -->
+    <Label fx:id="winnerLabel" text="Winner: TBD" styleClass="info-label"/>
+
+    <!-- HBox for the two boards with their names -->
+    <HBox alignment="CENTER" spacing="60" style="-fx-background-color: transparent;">
+        <!-- Padding around the HBox -->
+        <padding>
+            <Insets left="40" right="40" top="20" bottom="40"/>
+        </padding>
+
+        <!-- VBox for the first board with winner name -->
+        <VBox alignment="TOP_CENTER" spacing="10">
+            <Label fx:id="winnerName" text="Winner Name" styleClass="board-label"/>
+            <Pane fx:id="winnerBoard" prefWidth="400" prefHeight="400" style="-fx-background-color: lightgray;"/>
+        </VBox>
+
+        <!-- VBox for the second board with loser name -->
+        <VBox alignment="TOP_CENTER" spacing="10">
+            <Label fx:id="loserName" text="Loser Name" styleClass="board-label"/>
+            <Pane fx:id="loserBoard" prefWidth="400" prefHeight="400" style="-fx-background-color: lightgray;"/>
+        </VBox>
+    </HBox>
+</VBox>

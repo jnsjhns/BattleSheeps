@@ -159,7 +159,7 @@ public class GameController {
                 // Check if all opponent's sheep are fully shorn (win condition)
                 if (checkWinCondition(opponentPlayer)) {
                     // System.out.println(currentPlayer.getName() + " wins!");
-                    sceneManager.showEndView(currentPlayer); // Switch to end scene
+                    sceneManager.showEndView(currentPlayer, opponentPlayer); // Switch to end scene
                 }
             } else { // Miss!
                 // System.out.println("Miss!");

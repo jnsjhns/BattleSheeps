@@ -46,17 +46,13 @@ public class SceneManager {
 
 
 
-    public void showEndView(Player winner) {
+    public void showEndView(Player winner, Player loser) {
         try {
-            // Lade die Endview-FXML-Datei
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/view/end.fxml"));
             Scene scene = new Scene(loader.load());
             EndController controller = loader.getController();
-            controller.setWinner(winner);
-
-            // Setze die Szene und zeige sie an
+            controller.setEnding(winner, loser);
             stage.setScene(scene);
-            stage.show();
         } catch (Exception e) {
             handleError(e);
         }

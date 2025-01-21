@@ -28,6 +28,13 @@ public class StartController {
         String name1 = player1Name.getText().trim();
         String name2 = player2Name.getText().trim();
 
+        if(name1.isEmpty()){
+            name1 = "Player 1";
+        }
+        if (name2.isEmpty()) {
+            name2 = "Player 2";
+        }
+
         // initialise Players
         Player player1 = new Player(name1);
         Player player2 = new Player(name2);
