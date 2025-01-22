@@ -157,13 +157,15 @@ public class PlacementController {
         }
     }
 
+    // Handles the placement of a sheep visually
+    // Delegates logic to Board class method placeSheep(Sheep sheep)
     private void placeSheep(int row, int col) {
         clearPreview();
 
         // Create the sheep based on the currentSheep
         Sheep sheep = new Sheep(currentSheep.getSize(), row, col, currentSheep.isHorizontal());
 
-        // Try to place the sheep on the board
+        // Try to place the sheep on the board, delegate placement logic to Board class
         if (currentPlayer.getBoard().placeSheep(sheep)) { // placeSheep returns boolean
 
             // Update the visual representation
@@ -175,7 +177,7 @@ public class PlacementController {
                 cell.updateView("SHEEP");
             }
         } /* else {
-            System.out.println("Schaf konnte nicht platziert werden.");
+            System.out.println("Invalid placement!");
         } */
     }
 

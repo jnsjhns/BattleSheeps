@@ -165,8 +165,6 @@ public class GameController {
                 // System.out.println("Miss!");
                 switchPlayers();
             }
-        } else {
-            System.out.println("Zelle wurde bereits ausgewählt.");
         }
     }
 

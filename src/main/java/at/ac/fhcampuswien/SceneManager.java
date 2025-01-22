@@ -16,13 +16,13 @@ public class SceneManager {
         this.stage = stage;
     }
 
-    // Wechsel zur PlacementView
+    // Switch to PlacementView
     public void showPlacementView(Player player1Name, Player player2Name) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/scenes/placement.fxml"));
             Scene scene = new Scene(loader.load());
             PlacementController controller = loader.getController();
-            controller.setSceneManager(this);  // SceneManager an den Controller übergeben
+            controller.setSceneManager(this); // Transfer SceneManager to the controller
             controller.setPlayers(player1Name, player2Name);
             stage.setScene(scene);
         } catch (Exception e) {
@@ -30,7 +30,7 @@ public class SceneManager {
         }
     }
 
-    // Wechsel zur GameView
+    // Switch to GameView
     public void showGameView(Player player1, Player player2) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/scenes/game.fxml"));
@@ -45,7 +45,7 @@ public class SceneManager {
     }
 
 
-
+    // Switch to EndView
     public void showEndView(Player winner, Player loser) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/ac/fhcampuswien/scenes/end.fxml"));
@@ -58,12 +58,11 @@ public class SceneManager {
         }
     }
 
-    // Fehlerbehandlungsmethode
+
+
     private void handleError(Exception e) {
-        // Fehler im Systemprotokoll ausgeben
         e.printStackTrace();
 
-        // Eine Fehlermeldung dem Benutzer anzeigen
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Fehler");
         alert.setHeaderText("Ein unerwarteter Fehler ist aufgetreten");

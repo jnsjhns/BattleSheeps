@@ -42,7 +42,7 @@ public class Board {
                 return false;
             }
 
-            // Check for direct neighbourhood
+            // Check for neighbourhood
             if ((r > 0 && isCellOccupied(r - 1, c)) ||
                     (r < cells.length - 1 && isCellOccupied(r + 1, c)) ||
                     (c > 0 && isCellOccupied(r, c - 1)) ||
@@ -53,7 +53,8 @@ public class Board {
         return true;
     }
 
-    // Placing of sheep Object
+    // Places a sheep on the board if the placement is valid
+    // Adds it to Board.sheepList
     public boolean placeSheep(Sheep sheep) {
         int row = sheep.getStartRow();
         int col = sheep.getStartCol();
@@ -88,7 +89,7 @@ public class Board {
                     // System.out.println("Found horizontal sheep at (" + row + ", " + col + ")");
                     return sheep;
                 }
-            } else { // Vertical
+            } else { // Vertical, (isHorizontal set to false)
                 if (col == startCol && row >= startRow && row < startRow + size) {
                     // System.out.println("Found vertical sheep at (" + row + ", " + col + ")");
                     return sheep;

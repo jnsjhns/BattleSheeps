@@ -1,36 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.geometry.Insets?>
 
-<!-- Root layout is a VBox for vertical arrangement -->
-<VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="at.ac.fhcampuswien.controller.EndController"
-      alignment="TOP_CENTER"
-      spacing="20"
-      style="-fx-background-color: transparent;">
+<VBox fx:id="endSceneContainer" alignment="TOP_CENTER" spacing="30" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="at.ac.fhcampuswien.controller.EndController">
 
-    <!-- Label at the top for displaying the winner -->
-    <Label fx:id="winnerLabel" text="Winner: TBD" styleClass="info-label"/>
+    <!-- Winner Label -->
+    <Label fx:id="winnerLabel" text="Winner: TBD" />
 
-    <!-- HBox for the two boards with their names -->
-    <HBox alignment="CENTER" spacing="60" style="-fx-background-color: transparent;">
-        <!-- Padding around the HBox -->
+    <!-- Boards -->
+    <HBox alignment="CENTER" spacing="60">
+        <!-- Padding around the HBox for transparent spacing -->
         <padding>
-            <Insets left="40" right="40" top="20" bottom="40"/>
+            <Insets left="40" right="40"/>
         </padding>
 
-        <!-- VBox for the first board with winner name -->
-        <VBox alignment="TOP_CENTER" spacing="10">
-            <Label fx:id="winnerName" text="Winner Name" styleClass="board-label"/>
-            <Pane fx:id="winnerBoard" prefWidth="400" prefHeight="400" style="-fx-background-color: lightgray;"/>
+        <!-- Left Board -->
+        <VBox alignment="CENTER" spacing="10">
+            <Label fx:id="winnerName" text="Winner's Flock" />
+            <StackPane fx:id="winnerBoard" prefHeight="400.0" prefWidth="400.0">
+                <!-- Winner's board content will be added dynamically -->
+            </StackPane>
         </VBox>
 
-        <!-- VBox for the second board with loser name -->
-        <VBox alignment="TOP_CENTER" spacing="10">
-            <Label fx:id="loserName" text="Loser Name" styleClass="board-label"/>
-            <Pane fx:id="loserBoard" prefWidth="400" prefHeight="400" style="-fx-background-color: lightgray;"/>
+        <!-- Right Board -->
+        <VBox alignment="CENTER" spacing="10">
+            <Label fx:id="loserName" text="Loser's Flock" />
+            <StackPane fx:id="loserBoard" prefHeight="400.0" prefWidth="400.0">
+                <!-- Loser's board content will be added dynamically -->
+            </StackPane>
         </VBox>
     </HBox>
+
+    <!-- Animation -->
+    <ImageView fx:id="animationView"
+               fitHeight="200.0"
+               fitWidth="200.0"
+               preserveRatio="true" />
 </VBox>
